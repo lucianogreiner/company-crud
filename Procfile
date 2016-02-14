@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/company-crud.war
+web: java -Dserver.port=$PORT -jar target/company-crud.jar
