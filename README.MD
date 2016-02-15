@@ -151,4 +151,4 @@
 
 * **Sample Call:**
 
-  ```$ curl -H "Content-Type: application/json" -X PUT -d 'name=Marie+Cruz' https://company-crud.herokuapp.com/rest/companies/20/owner```
+  ```$ curl -H "Content-Type: application/x-www-form-urlencoded" -X PUT -d 'name=Marie+Cruz' https://company-crud.herokuapp.com/rest/companies/20/owner```
