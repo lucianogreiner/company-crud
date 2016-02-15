@@ -6,6 +6,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -16,16 +17,19 @@ public class Address implements Serializable {
 
 	@Column(name="ADDRESS_STREET")
 	@NotNull
+	@Size(max=100)
 	private String street;
 	
 	@Column(name="ADDRESS_CITY")
 	@JsonView(SummaryView.class)
 	@NotNull
+	@Size(max=100)
 	private String city;
 	
 	@Column(name="ADDRESS_COUNTRY")
 	@JsonView(SummaryView.class)
 	@NotNull
+	@Size(max=100)
 	private String country;
 
 	public String getStreet() {

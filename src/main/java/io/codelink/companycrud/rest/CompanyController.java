@@ -15,6 +15,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -133,6 +135,11 @@ public class CompanyController {
 		return updateCompany(id, company);
 	}
 
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<?> handleValidationErrors(MethodArgumentNotValidException e) {
+		return ResponseEntity.badRequest().body("Invalid company object!");
+	}
+	
 	private static final ResponseEntity<?> NOT_FOUND = notFound().build();
 	private static final ResponseEntity<?> ACCEPTED = accepted().build();
 	

@@ -48,9 +48,11 @@ public class Company implements Serializable {
 
 	@Column(name = "COMPANY_EMAIL")
 	@JsonView(SummaryView.class)
+	@Size(max=100)
 	private String email;
 
 	@Column(name = "COMPANY_PHONE")
+	@Size(max=20)
 	private String phone;
 
 	@ElementCollection
