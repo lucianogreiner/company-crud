@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -14,14 +15,17 @@ public class Address implements Serializable {
 	private static final long serialVersionUID = 2904513790573148667L;
 
 	@Column(name="ADDRESS_STREET")
+	@NotNull
 	private String street;
 	
 	@Column(name="ADDRESS_CITY")
 	@JsonView(SummaryView.class)
+	@NotNull
 	private String city;
 	
 	@Column(name="ADDRESS_COUNTRY")
 	@JsonView(SummaryView.class)
+	@NotNull
 	private String country;
 
 	public String getStreet() {

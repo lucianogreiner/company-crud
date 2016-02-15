@@ -48,18 +48,16 @@ public class Company implements Serializable {
 
 	@Column(name = "COMPANY_EMAIL")
 	@JsonView(SummaryView.class)
-	@Size(min = 5, max = 100)
 	private String email;
 
 	@Column(name = "COMPANY_PHONE")
-	@JsonView(SummaryView.class)
-	@NotNull
 	private String phone;
 
 	@ElementCollection
 	@CollectionTable(name = "TB_COMPANY_OWNER", joinColumns = @JoinColumn(name = "COMPANY_ID") )
 	@Column(name = "OWNER_NAME")
 	@OrderColumn(name = "OWNER_ORDER")
+	@Size(min=1, message="At least one owner is required")
 	private List<String> owners;
 
 	public Long getId() {

@@ -24,10 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import io.codelink.companycrud.model.Company;
 import io.codelink.companycrud.CompanyCrud.SummaryView;
+import io.codelink.companycrud.model.Company;
 import io.codelink.companycrud.repository.CompanyRepository;
 
+
+/**
+ * CompanyController handles REST requests to /companies crud operations
+ * 
+ * @author Luciano Greiner (luciano.greiner@gmail.com)
+ */
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
@@ -35,13 +41,31 @@ public class CompanyController {
 	@Autowired
 	private CompanyRepository repository;	
 
+	/**
+	 * List all registered companies.
+	 * 
+	 * @return List of Company objects with summarized data (id, name, email, city and country)
+	 * 
+	 * @see Company
+	 * 
+	 */
 	@RequestMapping(method=GET)
 	@JsonView(SummaryView.class)
 	@ResponseBody
 	public List<Company> listCompanies() {
 		return repository.findAll();
 	}
-	
+
+	/**
+	 * Insert a new company record.
+	 * 
+	 * @param Company object to be inserted
+	 * 
+	 * @return ResponseEntity with CREATED status and location header containing URL to the inserted company.
+	 * 
+	 * @see Company
+	 * 
+	 */
 	@RequestMapping(method=POST)
 	public ResponseEntity<?> insertCompany(@RequestBody @Validated Company company) {
 		company.setId(null);
@@ -50,6 +74,18 @@ public class CompanyController {
 		return created(location).build();
 	}
 	
+	
+	/**
+	 * Updtes a new company record.
+	 * 
+	 * @param ID of company record to be updated
+	 * @param Company object to be updated
+	 * 
+	 * @return ResponseEntity with ACCEPTED status if company has been updated, or NOT_FOUND in case company does not exist.
+	 * 
+	 * @see Company
+	 * 
+	 */
 	@RequestMapping(path="/{id:\\d+}", method=PUT)
 	public ResponseEntity<?> updateCompany(@PathVariable("id") Long id, @RequestBody @Validated Company company) {
 		if(!repository.exists(id)) {
@@ -59,13 +95,34 @@ public class CompanyController {
 		repository.save(company);
 		return ACCEPTED;
 	}
-		
+	
+	/**
+	 * Loads new company record.
+	 * 
+	 * @param ID of company record to be loaded
+	 *
+	 * @return ResponseEntity with OK status and company record body, or NOT_FOUND in case company does not exist.
+	 * 
+	 * @see Company
+	 * 
+	 */
 	@RequestMapping(path="/{id:\\d+}", method=GET)
 	public ResponseEntity<?> loadCompany(@PathVariable("id") Long id) {
 		Company company = repository.findOne(id);
 		return company == null ? NOT_FOUND : ok(company);
 	}
 	
+	/**
+	 * Adds an owner to a company record.
+	 * 
+	 * @param ID of company record to be updated
+	 * @param NAME of the owner to be added to the company record
+	 *
+	 * @return ResponseEntity with ACCEPTED status if company has been updated, or NOT_FOUND in case company does not exist.
+	 * 
+	 * @see Company
+	 * 
+	 */
 	@RequestMapping(path="/{id:\\d+}/owner", method=PUT)
 	public ResponseEntity<?> addOwner(@PathVariable("id") Long id, @RequestParam("name") String name) {
 		Company company = repository.findOne(id);
